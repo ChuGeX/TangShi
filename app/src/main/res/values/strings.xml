@@ -3,4 +3,9 @@
     <string name="title">唐诗三百首</string>
     <string name="duishi">对诗</string>
     <string name="tianjia">添加</string>
+    <string name="cuo_ju">错句</string>
+    <string name="origin_score">分数: 0</string>
+    <string name="shanghint">上句</string>
+    <string name="xiahint">下句</string>
+    <string name="confirm">确认</string>
 </resources>

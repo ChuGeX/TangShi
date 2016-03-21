@@ -22,7 +22,7 @@
         android:id="@+id/shang_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="上句"
+        android:hint="@string/shanghint"
         android:inputType="text"
         android:imeOptions="actionNext"/>
 
@@ -30,7 +30,7 @@
         android:id="@+id/xia_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="下句"
+        android:hint="@string/xiahint"
         android:inputType="text"
         android:imeOptions="actionDone"/>
 
@@ -38,7 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="确认"
+        android:text="@string/confirm"
         android:textSize="16sp"
         android:onClick="saveQuiz"/>
 

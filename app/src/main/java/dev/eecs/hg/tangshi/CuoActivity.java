@@ -14,14 +14,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.FileNotFoundException;
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.Scanner;
 
-public class QuizActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class CuoActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
     private HashMap<String, String> dictionary;
     private ArrayList<String> xia;
     private ArrayAdapter<String> adapter;
@@ -31,9 +30,6 @@ public class QuizActivity extends AppCompatActivity implements AdapterView.OnIte
     private MediaPlayer loseit;
     private ImageView state = null;
     private int answer_index;
-    public static final String CUO_SHI_JU_FILE_NAME = "cuoshi.txt";
-    private String shang;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +48,7 @@ public class QuizActivity extends AppCompatActivity implements AdapterView.OnIte
 
         readShiFile();
 
+
     }
 
 
@@ -59,13 +56,9 @@ public class QuizActivity extends AppCompatActivity implements AdapterView.OnIte
     private void readShiFile() {
         dictionary = new HashMap<>();
 
-        // 读诗三百
-        Scanner scanner = new Scanner(getResources().openRawResource(R.raw.shi300));
-        readShiJu(scanner);
-
-        // 读新诗句
+        // 读错诗句
         try {
-            Scanner xinShiScanner = new Scanner(openFileInput(AddQuizActivity.XIN_SHI_JU_FILE_NAME));
+            Scanner xinShiScanner = new Scanner(openFileInput(QuizActivity.CUO_SHI_JU_FILE_NAME));
             readShiJu(xinShiScanner);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -86,20 +79,21 @@ public class QuizActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     private void getQuiz() {
-        ArrayList<String> quizKey = new ArrayList(dictionary.keySet());
-        Collections.shuffle(quizKey);
-        answer_index = new Random().nextInt(4);
-        shang = quizKey.get(answer_index);
-        TextView shang_ju = (TextView) findViewById(R.id.shang_ju);
-        shang_ju.setText(shang);
+        int bounds = 4 < dictionary.size() ? 4 : dictionary.size();
+            ArrayList<String> quizKey = new ArrayList(dictionary.keySet());
+            answer_index = new Random().nextInt(bounds);
+            Collections.shuffle(quizKey);
+            String shang = quizKey.get(answer_index);
+            TextView shang_ju = (TextView) findViewById(R.id.shang_ju);
+            shang_ju.setText(shang);
 
-        xia.clear();
-        String xiaju;
-        for (int i = 0; i < 4; i++) {
-            xiaju = dictionary.get(quizKey.get(i));
-            xia.add(xiaju);
-        }
-        adapter.notifyDataSetChanged();
+            xia.clear();
+            String xiaju;
+            for (int i = 0; i < bounds; i++) {
+                xiaju = dictionary.get(quizKey.get(i));
+                xia.add(xiaju);
+            }
+            adapter.notifyDataSetChanged();
     }
 
 
@@ -119,12 +113,6 @@ public class QuizActivity extends AppCompatActivity implements AdapterView.OnIte
             Toast.makeText(this, "错了", Toast.LENGTH_SHORT).show();
             loseit.start();
             score -= 5;
-            try {
-                PrintStream printStream = new PrintStream(openFileOutput(CUO_SHI_JU_FILE_NAME, MODE_APPEND));
-                printStream.println(shang + "-" + dictionary.get(shang));
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
         }
         TextView score_text = (TextView) findViewById(R.id.score_text);
         score_text.setText("分数: " + score);

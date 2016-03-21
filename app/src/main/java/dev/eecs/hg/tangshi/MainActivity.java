@@ -11,8 +11,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
     }
 
     public void duiShiClicked(View view) {
@@ -25,4 +23,8 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void cuoJuClicked(View view) {
+        Intent intent = new Intent(this, CuoActivity.class);
+        startActivity(intent);
+    }
 }
