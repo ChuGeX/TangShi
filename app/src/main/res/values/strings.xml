@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">唐诗</string>
+    <string name="title">唐诗三百首</string>
+    <string name="duishi">对诗</string>
+    <string name="tianjia">添加</string>
+</resources>
