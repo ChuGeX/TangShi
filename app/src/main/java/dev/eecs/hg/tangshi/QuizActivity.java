@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -53,9 +54,20 @@ public class QuizActivity extends AppCompatActivity implements AdapterView.OnIte
 
 
     private void readShiFile() {
-        Scanner scanner = new Scanner(getResources().openRawResource(R.raw.shi300));
         dictionary = new HashMap<>();
+
+        // 读诗三百
+        Scanner scanner = new Scanner(getResources().openRawResource(R.raw.shi300));
         readShiJu(scanner);
+
+        // 读新诗句
+        try {
+            Scanner xinShiScanner = new Scanner(openFileInput(AddQuizActivity.XIN_SHI_JU_FILE_NAME));
+            readShiJu(xinShiScanner);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void readShiJu(Scanner scanner) {

@@ -21,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void tianJiaClicked(View view) {
+        Intent intent = new Intent(this, AddQuizActivity.class);
+        startActivity(intent);
     }
 
 }
