@@ -25,7 +25,6 @@ public class QuizActivity extends AppCompatActivity implements AdapterView.OnIte
     private HashMap<String, String> dictionary;
     private ArrayList<String> xia;
     private ArrayAdapter<String> adapter;
-    private int score = 0;
     private final int SCORE_MEI_JU = 5;
     private MediaPlayer gotit;
     private MediaPlayer loseit;
@@ -33,6 +32,8 @@ public class QuizActivity extends AppCompatActivity implements AdapterView.OnIte
     private int answer_index;
     public static final String CUO_SHI_JU_FILE_NAME = "cuoshi.txt";
     private String shang;
+    private int dui_count = 0;
+    private int zong_count = 0;
 
 
     @Override
@@ -106,6 +107,7 @@ public class QuizActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        zong_count++;
         final ListView shi_list = (ListView) findViewById(R.id.shi_list);
         shi_list.setEnabled(false);
         View right_answer = shi_list.getChildAt(answer_index);
@@ -114,11 +116,10 @@ public class QuizActivity extends AppCompatActivity implements AdapterView.OnIte
         if (answer_index == position) {
             Toast.makeText(this, "对了", Toast.LENGTH_SHORT).show();
             gotit.start();
-            score += 5;
+            dui_count++;
         } else {
             Toast.makeText(this, "错了", Toast.LENGTH_SHORT).show();
             loseit.start();
-            score -= 5;
             try {
                 PrintStream printStream = new PrintStream(openFileOutput(CUO_SHI_JU_FILE_NAME, MODE_APPEND));
                 printStream.println(shang + "-" + dictionary.get(shang));
@@ -126,8 +127,7 @@ public class QuizActivity extends AppCompatActivity implements AdapterView.OnIte
                 e.printStackTrace();
             }
         }
-        TextView score_text = (TextView) findViewById(R.id.score_text);
-        score_text.setText("分数: " + score);
+        setScore();
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -138,19 +138,28 @@ public class QuizActivity extends AppCompatActivity implements AdapterView.OnIte
         }, 2000);
     }
 
+    private void setScore() {
+        int score = (2 * dui_count - zong_count) * SCORE_MEI_JU;
+        TextView score_text = (TextView) findViewById(R.id.score_text);
+        score_text.setText("分数: " + score);
+        TextView count_text = (TextView) findViewById(R.id.count_text);
+        count_text.setText(dui_count + "/" + zong_count);
+    }
+
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt("score", score);
+        outState.putInt("duicount", dui_count);
+        outState.putInt("zongcount", zong_count);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        score = savedInstanceState.getInt("score");
-        TextView score_text = (TextView) findViewById(R.id.score_text);
-        score_text.setText("分数: " + score);
+        dui_count = savedInstanceState.getInt("duicount");
+        zong_count = savedInstanceState.getInt("zongcount");
+        setScore();
     }
 
     @Override
