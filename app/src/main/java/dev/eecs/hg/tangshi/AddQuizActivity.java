@@ -23,7 +23,7 @@ public class AddQuizActivity extends AppCompatActivity {
         EditText xiaju = (EditText) findViewById(R.id.xia_text);
         String shang_ju = shangju != null ? shangju.getText().toString() : null;
         String xia_ju = xiaju != null ? xiaju.getText().toString() : null;
-        if (shang_ju == null || xia_ju == null || shang_ju.length() > 0 || xia_ju.length() > 0) {
+        if (shang_ju != null && xia_ju != null && shang_ju.length() > 0 && xia_ju.length() > 0) {
             try {
                 // 添加新诗句到文件
                 PrintStream printStream = new PrintStream(openFileOutput(XIN_SHI_JU_FILE_NAME, MODE_APPEND));
