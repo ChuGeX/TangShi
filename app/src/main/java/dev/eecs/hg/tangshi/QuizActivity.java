@@ -34,6 +34,7 @@ public class QuizActivity extends AppCompatActivity implements AdapterView.OnIte
     private String shang;
     private int dui_count = 0;
     private int zong_count = 0;
+    private final int REQ_COD_READ_FILE = 2016;
 
 
     @Override
@@ -41,6 +42,7 @@ public class QuizActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
 
+        dictionary = new HashMap<>();
         xia = new ArrayList<>();
         adapter = new ArrayAdapter<>(
                 this,
@@ -52,24 +54,32 @@ public class QuizActivity extends AppCompatActivity implements AdapterView.OnIte
         shi_list.setOnItemClickListener(this);
 
         readShiFile();
-
     }
 
 
 
     private void readShiFile() {
-        dictionary = new HashMap<>();
+        String filetype = getIntent().getStringExtra("filetype");
+        if (filetype.equals("yuan")) {
+            // 读诗三百
+            Scanner scanner = new Scanner(getResources().openRawResource(R.raw.shi300));
+            readShiJu(scanner);
 
-        // 读诗三百
-        Scanner scanner = new Scanner(getResources().openRawResource(R.raw.shi300));
-        readShiJu(scanner);
-
-        // 读新诗句
-        try {
-            Scanner xinShiScanner = new Scanner(openFileInput(AddQuizActivity.XIN_SHI_JU_FILE_NAME));
-            readShiJu(xinShiScanner);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            // 读新诗句
+            try {
+                Scanner xinShiScanner = new Scanner(openFileInput(AddQuizActivity.XIN_SHI_JU_FILE_NAME));
+                readShiJu(xinShiScanner);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        } else if (filetype.equals("cuo")) {
+            // 读错诗句
+            try {
+                Scanner xinShiScanner = new Scanner(openFileInput(QuizActivity.CUO_SHI_JU_FILE_NAME));
+                readShiJu(xinShiScanner);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
         }
 
     }

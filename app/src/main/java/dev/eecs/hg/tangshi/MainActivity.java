@@ -15,6 +15,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void duiShiClicked(View view) {
         Intent intent = new Intent(this, QuizActivity.class);
+        intent.putExtra("filetype", "yuan");
+        setResult(RESULT_OK, intent);
         startActivity(intent);
     }
 
@@ -24,7 +26,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void cuoJuClicked(View view) {
-        Intent intent = new Intent(this, CuoActivity.class);
+        Intent intent = new Intent(this, QuizActivity.class);
+        intent.putExtra("filetype", "cuo");
+        setResult(RESULT_OK, intent);
         startActivity(intent);
     }
 }
