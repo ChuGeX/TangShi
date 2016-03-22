@@ -8,4 +8,5 @@
     <string name="shanghint">上句</string>
     <string name="xiahint">下句</string>
     <string name="confirm">确认</string>
+    <string name="timu">没有题目</string>
 </resources>

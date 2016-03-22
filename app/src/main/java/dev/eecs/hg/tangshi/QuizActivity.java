@@ -99,17 +99,25 @@ public class QuizActivity extends AppCompatActivity implements AdapterView.OnIte
     private void getQuiz() {
         ArrayList<String> quizKey = new ArrayList(dictionary.keySet());
         Collections.shuffle(quizKey);
-        answer_index = new Random().nextInt(4);
-        shang = quizKey.get(answer_index);
+
+//        answer_index = new Random().nextInt(4);
+//        shang = quizKey.get(answer_index);
+
+        shang = quizKey.get(0);
+        String xia_ju = dictionary.get(shang);
         TextView shang_ju = (TextView) findViewById(R.id.shang_ju);
         shang_ju.setText(shang);
 
         xia.clear();
         String xiaju;
-        for (int i = 0; i < 4; i++) {
-            xiaju = dictionary.get(quizKey.get(i));
-            xia.add(xiaju);
+        for (int i = 0; i < dictionary.size() && xia.size() < 4; i++) {
+            if (xia_ju.length() == (dictionary.get(quizKey.get(i))).length()) {
+                xiaju = dictionary.get(quizKey.get(i));
+                xia.add(xiaju);
+            }
         }
+        answer_index = new Random().nextInt(xia.size());
+        Collections.swap(xia, 0, answer_index);
         adapter.notifyDataSetChanged();
     }
 
